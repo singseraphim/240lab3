@@ -50,20 +50,17 @@ public class EvilHangmanGame implements IEvilHangmanGame {
 	}
 
 	@Override
-	public ArrayList<String> makeGuess(char guess) throws GuessAlreadyMadeException {
+	public Set<String> makeGuess(char guess) throws GuessAlreadyMadeException {
 		if (usedLetters.contains(guess)) {
 			throw new GuessAlreadyMadeException();
 		}
 		else {
 			usedLetters.add(guess);
 		}
-		
-	
 		return partition(guess);
-		
 	}
 	
-	public ArrayList<String> partition (char guess) {
+	public Set<String> partition (char guess) {
 		
 		//ArrayList<TreeMap<String, Set<String>>> families = new ArrayList<TreeMap<String, Set<String>>>();
 		//ArrayList<String> keyList = new ArrayList<String>();
@@ -80,7 +77,7 @@ public class EvilHangmanGame implements IEvilHangmanGame {
 				if (s.charAt(i) != guess) {
 					indicesStr.setCharAt(i, '_');
 				}
-			} //at this point I have generated a thing that I may compare to the other things. :((((((
+			}
 			String indexStr = indicesStr.toString();
 			if (families.containsKey(indexStr)) { //if the thing exists
 				HashSet<String> currentSet = families.get(indexStr);
@@ -97,14 +94,11 @@ public class EvilHangmanGame implements IEvilHangmanGame {
 		HashMap <String, HashSet<String>> bestFamily = getBestFamily(families);
 		
 		HashSet<String> stringSet = new HashSet<String>();
-		ArrayList<String> returnSet = new ArrayList<String>();
 		for (Map.Entry<String, HashSet<String>> entry: bestFamily.entrySet()) {
 			stringSet.addAll(entry.getValue());
-			returnSet.add(entry.getKey());
-			returnSet.addAll(entry.getValue());
 		}
 		wordBank = stringSet;
-		return returnSet;
+		return stringSet;
 		 
 		//System.out.println(bestFamily.keySet().toString());
 		
@@ -167,8 +161,7 @@ public class EvilHangmanGame implements IEvilHangmanGame {
 				s = key;
 				++f;
 			}
-		}
-		
+		}		
 		String fewestCharsGuessed = new String(s); //COUNTING NUMBER OF GUESSED CHARS IN COMPARESTRING
 		int fewestCharsGuessedNum = 0;
 		for (int i = 0; i < s.length(); ++i) {
@@ -239,11 +232,3 @@ public class EvilHangmanGame implements IEvilHangmanGame {
 	}
 	
 }
-
-
-/*CAPTAINS LOG
-	I feel good about saying my algorithms work. I tested them pretty well. 
-	Now I need to turn this into a proper game. 
-	
-	
- */

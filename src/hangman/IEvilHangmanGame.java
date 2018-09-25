@@ -2,7 +2,6 @@ package hangman;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Set;
 
 public interface IEvilHangmanGame {
@@ -38,6 +37,6 @@ public interface IEvilHangmanGame {
 	 * @throws GuessAlreadyMadeException If the character <code>guess</code> 
 	 * has already been guessed in this game.
 	 */
-	public ArrayList<String> makeGuess(char guess) throws GuessAlreadyMadeException;
+	public Set<String> makeGuess(char guess) throws GuessAlreadyMadeException;
 	
 }

@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+
 import hangman.IEvilHangmanGame.GuessAlreadyMadeException;
 
 public class Main {
@@ -76,7 +79,7 @@ public class Main {
 				++numGuesses;
 			}
 
-			ArrayList<String> partitionResult = new ArrayList<String>();
+			Set<String> partitionResult = new HashSet<String>();
 			if (!badInput) {
 				try {
 					partitionResult = myGame.makeGuess(guess);
@@ -90,7 +93,9 @@ public class Main {
 
 			if (!badInput) {
 				previousGuesses.add(guess);
-				String keyString = partitionResult.get(0);
+				String keyString = getKeyString(partitionResult, guess);
+				//System.out.println("keystring is " + keyString);
+				
 				boolean newLetterGuessed = false;
 				int newCharsGuessed = 0;
 				for (int i = 0; i < word.length; ++i) {
@@ -111,7 +116,7 @@ public class Main {
 					}
 					if (lastLetterGuessed) {
 						System.out.println("You solved my hangman mystery!");
-						System.out.println("Final word was: " + partitionResult.get(1));
+						System.out.println("Final word was: " + partitionResult.iterator().next());
 						gameOver = true;
 
 					} else {
@@ -127,7 +132,7 @@ public class Main {
 						System.out.println("There are no " + guess + "'s to be found");
 					} else {
 						System.out.println("You lost my hangman puzzle!");
-						System.out.println("The word was: " + partitionResult.get(1));
+						System.out.println("The word was: " + partitionResult.iterator().next());
 						gameOver = true;
 					}
 				}
@@ -136,6 +141,20 @@ public class Main {
 			}
 		}
 		input.close();
+	}
+	
+	public static String getKeyString(Set<String> wordBank, char guess) {
+		StringBuilder keyStr = new StringBuilder();
+		String wordBankElement = wordBank.iterator().next();
+		for (int i = 0; i < wordBankElement.length(); ++i) {
+			if (wordBankElement.charAt(i) == guess) {
+				keyStr.append(guess);
+			}
+			else {
+				keyStr.append('_');
+			}
+		}
+		return keyStr.toString();
 	}
 
 }
