@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -51,7 +52,23 @@ public class Main {
 		while (!gameOver) {
 			System.out.println("You have " + numGuesses + " guesses left");
 			--numGuesses;
-			System.out.println("Used characters: " + previousGuesses);
+			
+			
+			char[] guessArray = new char[previousGuesses.size()];
+			Arrays.sort(guessArray);
+			StringBuilder guessList = new StringBuilder();
+			for (int i = 0; i < guessArray.length; ++i) {
+				guessArray[i] = previousGuesses.get(i);
+			}
+			
+			Arrays.sort(guessArray);
+			
+			for (int i = 0; i < guessArray.length; ++i) {
+				guessList.append(guessArray[i]);
+				guessList.append(" ");
+			}
+			
+			System.out.println("Used characters: " + guessList);
 			StringBuilder wordStr = new StringBuilder();
 
 			for (int i = 0; i < word.length; ++i) {
